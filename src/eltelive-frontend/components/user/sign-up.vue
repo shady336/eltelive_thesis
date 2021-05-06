@@ -18,6 +18,7 @@
           <div>            
             <input type="submit" value="Sign Up" class="btn btn-primary btn-lg btn-block">
           </div>
+          <router-link to="/login">Already have an account? Login</router-link>
         </form>
         </div>
         <div class="guest-sign-up text-center pt-4 pl-5">
@@ -36,8 +37,6 @@
   export default {
     name: "signup",
     mounted(){
-      console.log("SIGN UP")
-      // Equivalent of it in JavaScript: const form = document.getElementById('registration')
       const form = this.$refs['registration']
       form.addEventListener('submit', registerUser)
 
@@ -66,7 +65,7 @@
           alert('Success')
           window.location.href = "/#/login";
         } else {
-          alert(result.error)
+          alert(result.title)
         }
       }
 
@@ -108,9 +107,5 @@
       background-color: #b1bfcc;
     }
 
-  }
-  #login {
-    justify-content: center;
-    align-items: center;
   }
 </style>

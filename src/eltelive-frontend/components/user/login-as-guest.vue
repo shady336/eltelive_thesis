@@ -53,27 +53,34 @@
             <small>Listen LQ in App</small>
           </button>
         </div>
-          <video-js ref="Player" v-if="showVideo" id="stream-player" width=530 height=300 class="vjs-default-skin" controls>
-          </video-js>
+        <div id="videoElementDisplay" style="display:none">
+          <script type="application/javascript" defer src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+        <video id="videoElement" 
+        class="centeredVideo" 
+        controls autoplay width="600" height="576">
+        Your browser is too old which doesn't support HTML5 video.
+        </video>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import videojs from "./video.min.js";
-window.videojs = videojs
+import videojs from "./video";
 
 export default {
   name: "login-as-guest",
-  data: function() {
-        return {
-            showVideo: false
-        }
+    mounted() {
+      window.videojs = videojs
+      let recaptchaScript = document.createElement('script')
+      recaptchaScript.setAttribute('src', 'https://vjs.zencdn.net/7.11.4/video.min.js')
+      document.head.appendChild(recaptchaScript)
     },
   methods: {
     registerStreamKey(type) {
-      this.showVideo = true;
-      var streamKey = document.getElementById("streamkey").value;
+      var showVideo = document.getElementById("stream-player");
+      var streamKey = (document.getElementById("streamkey").value).trim();
+
       if(!streamKey)
         return;
       if (type == "1") {
@@ -89,11 +96,19 @@ export default {
         player.play();
       } else if (type == "3") {
         //HLS
-        var streamLink =
-          "http://localhost:8000/live/" + streamKey + ".flv";
-        var player = videojs(this.$refs.Player);
-        player.src({src: streamLink, type: 'application/x-mpegURL'});
-        player.play();
+        var T = document.getElementById("videoElementDisplay");
+        T.style.display = "block";
+        if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('videoElement');
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            isLive: true,
+            url: 'http://localhost:8000/live/' + streamKey +'.flv',
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+       }
       } else if (type == "4") {
         //Recorded videos
         var streamLink =
@@ -111,8 +126,7 @@ export default {
         player.src({src: streamLink, type: 'application/x-mpegURL'});
         player.play();
   }
-}
-
+},
   }
 };
 </script>
