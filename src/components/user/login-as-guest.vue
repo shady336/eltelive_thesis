@@ -103,7 +103,7 @@ export default {
         var flvPlayer = flvjs.createPlayer({
             type: 'flv',
             isLive: true,
-            url: process.env.STREAMING_HOST + '/live/' + streamKey +'.flv',
+            url: '/live/' + streamKey +'.flv',
         });
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();
