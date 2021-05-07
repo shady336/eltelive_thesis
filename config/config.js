@@ -1,13 +1,13 @@
 const config = {
 	rtmp: {
-		port: 80,
+		port: 1935,
 		chunk_size: 60000,
 		gop_cache: true,
 		ping: 30,
 		ping_timeout: 60
 	},
 	http: {
-		port: 443,
+		port: 8000,
 		allow_origin: '*'
 	},
 	auth: {
