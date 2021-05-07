@@ -64,6 +64,8 @@ export default {
           'Authorization': 'Bearer ' + localStorage.getItem('token') 
         },
         }).then((res) => res.json())
+      console.log(result.stream_display_url)
+      console.log(result.stream_address)
       localStorage.setItem('streamKey',result.stream_key);
       document.getElementById("key_textfield").innerHTML = result.stream_key;
     }
@@ -79,8 +81,6 @@ export default {
           'Authorization': 'Bearer ' + localStorage.getItem('token') 
         },
         }).then((res) => res.json())
-      console.log(result.stream_display_url)
-      console.log(result.stream_address)
       localStorage.removeItem('streamKey',result.stream_key);
       if(result.stream_key === undefined){
         document.getElementById("key_textfield").innerHTML = '';
