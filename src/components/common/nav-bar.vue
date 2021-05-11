@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
       <ul class="navbar-nav my-2 my-sm-0" v-if="isOut()">
         <li class="navbar-brand">
-          <router-link to="/home" class="nav-link">Home</router-link>
+          <router-link to="/" class="nav-link">Home</router-link>
         </li>
         <li class="navbar-brand">
           <router-link to="/about" class="nav-link">About Us</router-link>
@@ -15,7 +15,7 @@
           <router-link to="/contact" class="nav-link">Contact</router-link>
         </li>
         <li class="navbar-brand">
-          <a v-on:click="loggingIn()" class="nav-link">Login</a>
+          <router-link to="/login" class="nav-link">Login</router-link>
         </li>
         <li class="navbar-brand">
           <router-link to="/signup" class="nav-link">Sign Up</router-link>
@@ -24,7 +24,7 @@
       
       <ul class="navbar-nav my-2 my-sm-0" v-if="isIn()">
           <li class="navbar-brand">
-          <router-link to="/home" class="nav-link">Home</router-link>
+          <router-link to="/" class="nav-link">Home</router-link>
         </li>
         <li class="navbar-brand">
           <router-link to="/about" class="nav-link">About Us</router-link>
@@ -54,7 +54,6 @@ export default {
   },
     methods:{
       loggingIn(){
-        console.log(this.isLoggedIn)
         if(!(localStorage.getItem('token'))){
           this.$router.push('login')
         }
