@@ -30,18 +30,15 @@
           </div>
         </noscript>
         <input
-          class="mt-3"
+          class="input mt-3"
           type="text"
           id="streamkey"
-          placeholder="Insert your stream key here and press one of the buttons below"
+          placeholder="Insert your stream key here and press the button below"
           required
         />
-        <div class="pt-5">
-          <button class="link-buttons" v-on:click="registerStreamKey(3)">
+        <div class="pt-4">
+          <button class="link-buttons mr-5" v-on:click="registerStreamKey(3)">
             - Listen in Browser -
-          </button>
-          <button class="link-buttons" v-on:click="registerStreamKey(1)">
-            - Listen in App -
           </button>
         </div>
         <div id="videoElementDisplay" style="display:none">
@@ -66,18 +63,11 @@
   </div>
 </template>
 <script>
-import videojs from "./video";
 
 export default {
   name: "login-as-guest",
   mounted() {
-    window.videojs = videojs;
-    let recaptchaScript = document.createElement("script");
-    recaptchaScript.setAttribute(
-      "src",
-      "https://vjs.zencdn.net/7.11.4/video.min.js"
-    );
-    document.head.appendChild(recaptchaScript);
+ 
   },
   methods: {
     registerStreamKey(type) {
@@ -85,11 +75,7 @@ export default {
       var streamKey = document.getElementById("streamkey").value.trim();
 
       if (!streamKey) return;
-      if (type == "1") {
-        // RTMP
-        var streamLink = "rtmp://$DOMAINNAME/live/" + streamKey;
-        window.open(streamLink, "_blank");
-      } else if (type == "3") {
+      if (type == "3") {
         //HLS
         var T = document.getElementById("videoElementDisplay");
         T.style.display = "block";
@@ -98,7 +84,7 @@ export default {
           var flvPlayer = flvjs.createPlayer({
             type: "flv",
             isLive: true,
-            url: "http://localhost:8000/live/" + streamKey + ".flv"
+            url: "http://" + process.env.VUE_APP_HOST + ":8000/live/" + streamKey + ".flv"
           });
           flvPlayer.attachMediaElement(videoElement);
           flvPlayer.load();
@@ -112,7 +98,6 @@ export default {
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
-@import url("video-js.min.css");
 .guest-title {
   text-transform: uppercase;
 }
@@ -177,5 +162,9 @@ input:focus {
 
 input::placeholder {
   color: #999;
+}
+.input {
+  height:3.5rem;
+  font-size: 1.15rem;
 }
 </style>
